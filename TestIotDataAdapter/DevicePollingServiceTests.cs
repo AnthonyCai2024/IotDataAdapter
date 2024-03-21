@@ -12,12 +12,19 @@ public class DevicePollingServiceTests
         var devices = new List<TcpParameter>
         {
             new TcpParameter { Ip = "192.168.4.44" },
+            new TcpParameter { Ip = "192.168.4.41" },
+            new TcpParameter { Ip = "192.168.4.42" },
             // new TcpParameter { Ip = "192.168.1.2" },
             // 添加更多设备以满足测试需要
         };
-        var service = new DevicePollingService(devices, TimeSpan.FromSeconds(30)); // 假设最大并发数为2
+        var service =
+            new DevicePollingService(devices
+                , TimeSpan.FromSeconds(30)
+                , TimeSpan.FromSeconds(3)); // 假设最大并发数为2
 
-        await service.PollDevicesAsync();
+        await service.StartPollingAsync();
+
+        Assert.True(true);
 
         // var cancellationTokenSource = new CancellationTokenSource();
         //
