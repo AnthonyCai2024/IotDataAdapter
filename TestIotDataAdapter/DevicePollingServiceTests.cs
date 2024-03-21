@@ -11,7 +11,7 @@ public class DevicePollingServiceTests
         // Arrange
         var devices = new List<TcpParameter>
         {
-            new TcpParameter { Ip = "192.168.4.43" },
+            new TcpParameter { Ip = "192.168.4.44" },
             // new TcpParameter { Ip = "192.168.1.2" },
             // 添加更多设备以满足测试需要
         };

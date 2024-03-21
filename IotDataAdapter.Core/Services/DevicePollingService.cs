@@ -11,10 +11,12 @@ public class DevicePollingService(List<TcpParameter> devices, TimeSpan pollingIn
         {
             foreach (var device in devices)
             {
-                using var tcpClient = new TcpClient();
                 try
                 {
-                    await tcpClient.ConnectAsync(device.Ip, device.Port);
+                    using var udpClient = new UdpClient();
+                    udpClient.Client.ReceiveTimeout = 100;
+                    udpClient.Connect(device.Ip, 1086);
+                    // await tcpClient.ConnectAsync(device.Ip, device.Port);
                     Console.WriteLine($"Connected to {device.Ip}:{device.Port}, ready to read data.");
                     // 实现数据读取逻辑
                 }
