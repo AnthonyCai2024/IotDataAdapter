@@ -6,4 +6,5 @@ public class TcpParameters
     public ushort Slave = 1;
     public ushort Start = 1;
     public ushort Length = 1;
+    public readonly ushort Port = 502;
 }
