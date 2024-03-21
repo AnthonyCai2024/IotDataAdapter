@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IotDataAdapter.Api", "IotDa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{AA68B985-55B9-4F84-9F7C-91412D1BB26C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IotDataAdapter.Core", "..\IotDataAdapter.Core\IotDataAdapter.Core.csproj", "{A36E3F60-2557-4E5E-8102-157FEF118CA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,8 +18,13 @@ Global
 		{F5D4F5CF-E4D6-49D1-B877-88BC23AED613}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5D4F5CF-E4D6-49D1-B877-88BC23AED613}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5D4F5CF-E4D6-49D1-B877-88BC23AED613}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A36E3F60-2557-4E5E-8102-157FEF118CA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A36E3F60-2557-4E5E-8102-157FEF118CA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A36E3F60-2557-4E5E-8102-157FEF118CA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A36E3F60-2557-4E5E-8102-157FEF118CA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F5D4F5CF-E4D6-49D1-B877-88BC23AED613} = {5CA895D2-7AE9-480F-A1C5-3019281B651F}
+		{A36E3F60-2557-4E5E-8102-157FEF118CA1} = {5CA895D2-7AE9-480F-A1C5-3019281B651F}
 	EndGlobalSection
 EndGlobal
