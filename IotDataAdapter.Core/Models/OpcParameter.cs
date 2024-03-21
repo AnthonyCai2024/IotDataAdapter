@@ -1,6 +1,6 @@
 ﻿namespace IotDataAdapter.Core.Models;
 
-public class OpcParameters
+public class OpcParameter
 {
     
 }

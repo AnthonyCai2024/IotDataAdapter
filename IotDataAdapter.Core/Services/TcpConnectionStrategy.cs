@@ -3,9 +3,9 @@ using IotDataAdapter.Core.Models;
 
 namespace IotDataAdapter.Core.Services;
 
-public class TcpConnectionStrategy : IConnectionStrategy<TcpParameters>
+public class TcpConnectionStrategy : IConnectionStrategy<TcpParameter>
 {
-    public Task ConnectAsync(TcpParameters parameters)
+    public Task ConnectAsync(TcpParameter parameter)
     {
         throw new NotImplementedException();
     }

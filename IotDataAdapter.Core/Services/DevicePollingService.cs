@@ -3,7 +3,7 @@ using IotDataAdapter.Core.Models;
 
 namespace IotDataAdapter.Core.Services;
 
-public class DevicePollerService(List<TcpParameters> devices, TimeSpan pollingInterval)
+public class DevicePollingService(List<TcpParameter> devices, TimeSpan pollingInterval)
 {
     public async Task PollDevicesAsync()
     {

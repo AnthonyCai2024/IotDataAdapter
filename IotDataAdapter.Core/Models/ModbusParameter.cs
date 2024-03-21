@@ -1,6 +1,6 @@
 ﻿namespace IotDataAdapter.Core.Models;
 
-public class ModbusParameters
+public class ModbusParameter
 {
     public int Start { get; set; }
     public int Length { get; set; }
