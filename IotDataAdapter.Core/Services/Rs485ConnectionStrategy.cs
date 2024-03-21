@@ -1,10 +1,11 @@
 ﻿using IotDataAdapter.Core.Interfaces;
+using IotDataAdapter.Core.Models;
 
 namespace IotDataAdapter.Core.Services;
 
-public class Rs485ConnectionStrategy : IConnectionStrategy
+public class Rs485ConnectionStrategy : IConnectionStrategy<TcpParameters>
 {
-    public Task ConnectAsync()
+    public Task ConnectAsync(TcpParameters parameters)
     {
         throw new NotImplementedException();
     }

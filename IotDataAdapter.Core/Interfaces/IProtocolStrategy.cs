@@ -1,6 +1,6 @@
 ﻿namespace IotDataAdapter.Core.Interfaces;
 
-public interface IProtocolStrategy
+public interface IProtocolStrategy<in TParameters, TResult>
 {
-    Task ProcessDataAsync();
+    Task<TResult> ProcessDataAsync(TParameters parameters);
 }
