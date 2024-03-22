@@ -4,5 +4,9 @@ namespace IotDataAdapter.Api.Services;
 
 public interface IDataCollectionService
 {
-    Task CollectDataAsync(TcpParameter para);
+    Task CollectSingleDataAsync(TcpParameter para);
+
+    Task CollectMultiDataAsync(List<TcpParameter> paras);
+
+    Task ParallelCollectMultiDataAsync(IEnumerable<TcpParameter> paras);
 }

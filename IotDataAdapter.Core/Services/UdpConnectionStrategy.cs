@@ -12,16 +12,16 @@ public class UdpConnectionStrategy : HexCommandBuilder, IConnectionStrategy<TcpP
     public Task<UdpClient> ConnectAsync(TcpParameter request)
     {
         // no need to connect
-        return Task.FromResult(new UdpClient());
+        // set timeout
+        var udpClient = new UdpClient();
+        udpClient.Client.ReceiveTimeout = 100;
+        // udp no need to connect, just send
+        udpClient.Connect(request.Ip, 1086);
+        return Task.FromResult(udpClient);
     }
 
     public async Task<byte[]> SendAsync(UdpClient udpClient, TcpParameter request)
     {
-        // set timeout
-        udpClient.Client.ReceiveTimeout = 100;
-        // udp no need to connect, just send
-        // udpClient.Connect(ip, 1086);
-
         var sendBytes = HexBuild(request.Slave
             , request.Start - request.PlcBaseAddress
             , request.Length

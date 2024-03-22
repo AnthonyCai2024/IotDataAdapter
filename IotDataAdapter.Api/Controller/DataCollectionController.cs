@@ -8,10 +8,8 @@ namespace IotDataAdapter.Api.Controller;
 [Route("api/[controller]")]
 public class DataCollectionController(IDataCollectionService dataCollectionService)
 {
-  
-
-    [HttpPost("collectData")]
-    public void GetUdpData()
+    [HttpPost("collectSingleData")]
+    public void CollectSingleData()
     {
         var para = new TcpParameter
         {
@@ -24,14 +22,53 @@ public class DataCollectionController(IDataCollectionService dataCollectionServi
             Port = 1086
         };
 
-        dataCollectionService.CollectDataAsync(para);
+        dataCollectionService.CollectSingleDataAsync(para);
     }
 
-   
+    [HttpPost("CollectMultiDataAsync")]
+    public async Task CollectMultiDataAsync()
+    {
+        await dataCollectionService.CollectMultiDataAsync(GetParas());
+    }
+
+    [HttpPost("ParallelCollectMultiDataAsync")]
+    public async Task ParallelCollectMultiDataAsync()
+    {
+        await dataCollectionService.ParallelCollectMultiDataAsync(GetParas());
+    }
+
 
     [HttpGet("{command}")]
     public string ExecuteCommand(string command)
     {
         return command;
+    }
+
+    private static List<TcpParameter> GetParas()
+    {
+        var ipList = new List<int>
+        {
+            31, 32, 33, 34, 35, 36, 37, 38
+        };
+
+        const int slave = 1;
+        const int start = 1;
+        const int length = 1;
+        const int val = 1;
+        const int plcBaseAddress = 1;
+        const string ip = "192.168.4.";
+        const int port = 1086;
+
+        return ipList.Select(ipItem => new TcpParameter
+            {
+                Slave = slave,
+                Start = start,
+                Length = length,
+                Val = val,
+                PlcBaseAddress = plcBaseAddress,
+                Ip = ip + ipItem,
+                Port = port
+            })
+            .ToList();
     }
 }
