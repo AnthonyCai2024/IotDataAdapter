@@ -10,9 +10,17 @@ public class DataCollectionService(IConnectionStrategy<TcpParameter, UdpClient, 
 {
     public async Task CollectSingleDataAsync(TcpParameter para)
     {
-        var client = await connectionStrategy.ConnectAsync(para);
+        try
+        {
+            var client = await connectionStrategy.ConnectAsync(para);
 
-        var data = await connectionStrategy.SendAsync(client, para);
+            var data = await connectionStrategy.SendAsync(client, para);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return;
+        }
     }
 
     public async Task CollectMultiDataAsync(List<TcpParameter> paras)
@@ -37,7 +45,11 @@ public class DataCollectionService(IConnectionStrategy<TcpParameter, UdpClient, 
 
     public async Task ParallelCollectMultiDataAsync(IEnumerable<TcpParameter> paras)
     {
+        Stopwatch sw = new();
+        sw.Start();
         var tasks = paras.Select(CollectSingleDataAsync).ToList();
         await Task.WhenAll(tasks);
+        sw.Stop();
+        Console.WriteLine($"Total time: {sw.ElapsedMilliseconds} ms");
     }
 }
