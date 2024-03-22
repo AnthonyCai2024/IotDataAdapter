@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using IotDataAdapter.Api.Services;
 using IotDataAdapter.Core.Interfaces;
 using IotDataAdapter.Core.Models;
 using IotDataAdapter.Core.Services;
@@ -14,6 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 // 注册连接策略
 builder.Services.AddTransient<IConnectionStrategy<TcpParameter, UdpClient, byte[]>, UdpConnectionStrategy>();
+builder.Services.AddTransient<IDataCollectionService, DataCollectionService>();
+
 // // 注册数据协议策略
 // builder.Services.AddTransient<IDataProtocolStrategy, ModbusProtocolStrategy>();
 
@@ -26,7 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 var summaries = new[]
 {
@@ -47,6 +50,8 @@ app.MapGet("/weatherforecast", () =>
     })
     .WithName("GetWeatherForecast")
     .WithOpenApi();
+
+app.MapControllers();
 
 app.Run();
 
