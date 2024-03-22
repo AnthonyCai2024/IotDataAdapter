@@ -32,7 +32,7 @@ public class DataCollectionServiceTest
         };
 
         // Act
-        await service.CollectDataAsync(tcpParameter);
+        await service.CollectSingleDataAsync(tcpParameter);
 
         // Assert
         // Assert.Equal("测试数据", result);
