@@ -1,4 +1,5 @@
-﻿using System.Net.Sockets;
+﻿using System.Diagnostics;
+using System.Net.Sockets;
 using IotDataAdapter.Core.Interfaces;
 using IotDataAdapter.Core.Models;
 
@@ -16,6 +17,8 @@ public class DataCollectionService(IConnectionStrategy<TcpParameter, UdpClient, 
 
     public async Task CollectMultiDataAsync(List<TcpParameter> paras)
     {
+        Stopwatch sw = new();
+        sw.Start();
         foreach (var para in paras)
         {
             try
@@ -25,11 +28,13 @@ public class DataCollectionService(IConnectionStrategy<TcpParameter, UdpClient, 
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                
             }
         }
+
+        sw.Stop();
+        Console.WriteLine($"Total time: {sw.ElapsedMilliseconds} ms");
     }
-    
+
     public async Task ParallelCollectMultiDataAsync(IEnumerable<TcpParameter> paras)
     {
         var tasks = paras.Select(CollectSingleDataAsync).ToList();
