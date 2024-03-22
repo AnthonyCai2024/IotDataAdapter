@@ -26,6 +26,12 @@ public class RedisService(IRedisConnection redisConnection, int databaseNumber) 
         var redisValues = list.Select(value => (RedisValue)value).ToArray();
         return await Database.ListRightPushAsync(key, redisValues);
     }
+    
+    // right push
+    public async Task<long> ListRightPushAsync(string key, string value)
+    {
+        return await Database.ListRightPushAsync(key, value);
+    }
 
     // list range
     public async Task<List<string?>> ListRangeAsync(string key)

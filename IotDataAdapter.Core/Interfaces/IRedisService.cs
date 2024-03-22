@@ -13,6 +13,8 @@ public interface IRedisService
     // list right push
     Task<long> ListRightPushAsync(string key, IEnumerable<string> list);
 
+    Task<long> ListRightPushAsync(string key, string value);
+
 
     // list range
     Task<List<string?>> ListRangeAsync(string key);

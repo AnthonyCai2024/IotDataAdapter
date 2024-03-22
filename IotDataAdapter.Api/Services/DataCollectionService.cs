@@ -5,7 +5,9 @@ using IotDataAdapter.Core.Models;
 
 namespace IotDataAdapter.Api.Services;
 
-public class DataCollectionService(IConnectionStrategy<TcpParameter, UdpClient, byte[]> connectionStrategy)
+public class DataCollectionService(
+    IConnectionStrategy<TcpParameter, UdpClient, byte[]> connectionStrategy,
+    IRedisService redisService)
     : IDataCollectionService
 {
     public async Task CollectSingleDataAsync(TcpParameter para)
@@ -19,7 +21,8 @@ public class DataCollectionService(IConnectionStrategy<TcpParameter, UdpClient, 
         catch (Exception e)
         {
             Console.WriteLine(e);
-            return;
+            // add this ip to redis
+            await redisService.ListRightPushAsync("error", para.Ip);
         }
     }
 
@@ -27,7 +30,14 @@ public class DataCollectionService(IConnectionStrategy<TcpParameter, UdpClient, 
     {
         Stopwatch sw = new();
         sw.Start();
-        foreach (var para in paras)
+
+        //get skip from redis
+        var skipList = await redisService.ListRangeAsync("error");
+
+        //filter skip ip
+        var list = paras.Where(para => !skipList.Contains(para.Ip)).ToList();
+
+        foreach (var para in list)
         {
             try
             {

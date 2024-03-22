@@ -16,6 +16,16 @@ builder.Services.AddControllers();
 // 注册连接策略
 builder.Services.AddTransient<IConnectionStrategy<TcpParameter, UdpClient, byte[]>, UdpConnectionStrategy>();
 builder.Services.AddTransient<IDataCollectionService, DataCollectionService>();
+builder.Services.AddSingleton<IRedisConnection>(
+    new RedisConnection("36.137.225.245:6376,password=mtic0756-dev,DefaultDatabase=5"));
+// builder.Services.AddTransient<IRedisService, RedisService>();
+// builder.Services.AddTransient<IRedisService, RedisService>();
+builder.Services.AddTransient<IRedisService>(provider =>
+{
+    var connection = provider.GetRequiredService<IRedisConnection>();
+    const int database = 5; // 你可以从配置文件或环境变量中获取这个值
+    return new RedisService(connection, database);
+});
 
 // // 注册数据协议策略
 // builder.Services.AddTransient<IDataProtocolStrategy, ModbusProtocolStrategy>();

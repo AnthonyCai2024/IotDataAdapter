@@ -18,7 +18,7 @@ public class DataCollectionServiceTest
 
         // mockDataProtocolStrategy.Setup(m => m.GetDataAsync()).ReturnsAsync("测试数据");
 
-        var service = new DataCollectionService(mockConnectionStrategy.Object);
+        var service = new DataCollectionService(mockConnectionStrategy.Object, new Mock<IRedisService>().Object);
 
         var tcpParameter = new TcpParameter
         {
