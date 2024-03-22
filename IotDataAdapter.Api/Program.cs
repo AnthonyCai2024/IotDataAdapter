@@ -1,9 +1,21 @@
+using System.Net.Sockets;
+using IotDataAdapter.Core.Interfaces;
+using IotDataAdapter.Core.Models;
+using IotDataAdapter.Core.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//custom register
+builder.Services.AddControllers();
+// 注册连接策略
+builder.Services.AddTransient<IConnectionStrategy<TcpParameter, UdpClient, byte[]>, UdpConnectionStrategy>();
+// // 注册数据协议策略
+// builder.Services.AddTransient<IDataProtocolStrategy, ModbusProtocolStrategy>();
 
 var app = builder.Build();
 

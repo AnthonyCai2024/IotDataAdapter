@@ -8,12 +8,15 @@ public class DevicePollingServiceTests
     [Fact]
     public async Task PollDevicesAsync_AllDevicesPolled_ConcurrencyLimited()
     {
+        const int port = 1086;
+        const int plcBaseAddress = 1;
+
         // Arrange
         var devices = new List<TcpParameter>
         {
-            new TcpParameter { Ip = "192.168.4.44" },
-            new TcpParameter { Ip = "192.168.4.41" },
-            new TcpParameter { Ip = "192.168.4.42" },
+            new TcpParameter { Ip = "192.168.4.44", Port = port, PlcBaseAddress = plcBaseAddress },
+            new TcpParameter { Ip = "192.168.4.41", Port = port, PlcBaseAddress = plcBaseAddress },
+            new TcpParameter { Ip = "192.168.4.42", Port = port, PlcBaseAddress = plcBaseAddress },
             // new TcpParameter { Ip = "192.168.1.2" },
             // 添加更多设备以满足测试需要
         };

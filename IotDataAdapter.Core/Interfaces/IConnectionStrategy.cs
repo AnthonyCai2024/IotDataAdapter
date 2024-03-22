@@ -1,6 +1,9 @@
 ﻿namespace IotDataAdapter.Core.Interfaces;
 
-public interface IConnectionStrategy<in TParameters>
+public interface IConnectionStrategy<in TRequest, TClient, TResponse>
 {
-    Task ConnectAsync(TParameters parameters);
+    Task<TClient> ConnectAsync(TRequest request);
+
+    Task<TResponse> SendAsync(TClient udpClient, TRequest request);
+    // Task<string> ReceiveAsync(T connection);
 }

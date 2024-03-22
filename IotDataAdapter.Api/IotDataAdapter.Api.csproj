@@ -19,4 +19,8 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\IotDataAdapter.Core\IotDataAdapter.Core.csproj" />
+    </ItemGroup>
+
 </Project>
