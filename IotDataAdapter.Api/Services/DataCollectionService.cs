@@ -37,26 +37,14 @@ public class DataCollectionService(
         //get skip from redis
         var skipList = await redisService.GetKeysAsync(MtimConst.Redis.UnavailableIp + "*");
 
-        //get ip list
-        var ipList = paras.Select(para => para.Ip).ToList();
+        //filter
+        var filterList = paras.Where(para =>
+        {
+            var ip = skipList.FirstOrDefault(s => s.Split(":")[2] == para.Ip);
+            return string.IsNullOrEmpty(ip);
+        });
 
-        // filter skip ip
-        var filterList = ipList.Where(ip => !skipList
-            .Select(s => s.Split(":")[2]).Contains(ip)).ToList();
-
-        // get list from filterList
-        var list = paras.Where(para => filterList.Contains(para.Ip)).ToList();
-
-
-        //filter skip ip
-        // var list = paras.Where(para => !skipList.Contains(para.Ip)).ToList();
-        // filter skip ip with linq
-        // var filterList = skipList.Select(skip => skip.Split(":")[2])
-        //     .Where(s => paras.Any(para => para.Ip == s)).ToList();
-
-        // var filterList;
-
-        foreach (var para in list)
+        foreach (var para in filterList)
         {
             try
             {
