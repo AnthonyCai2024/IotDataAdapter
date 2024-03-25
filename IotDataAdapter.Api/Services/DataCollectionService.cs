@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Net.Sockets;
+using IotDataAdapter.Core.Config;
 using IotDataAdapter.Core.Interfaces;
 using IotDataAdapter.Core.Models;
 
@@ -21,8 +22,10 @@ public class DataCollectionService(
         catch (Exception e)
         {
             Console.WriteLine(e);
-            // add this ip to redis
-            await redisService.ListRightPushAsync("error", para.Ip);
+            // add this ip to redis, skip next time, 1 minute
+            await redisService.StringSet(MtimConst.Redis.UnavailableIp + para.Ip
+                , para.Ip,
+                TimeSpan.FromMinutes(1));
         }
     }
 
@@ -32,10 +35,26 @@ public class DataCollectionService(
         sw.Start();
 
         //get skip from redis
-        var skipList = await redisService.ListRangeAsync("error");
+        var skipList = await redisService.GetKeysAsync(MtimConst.Redis.UnavailableIp + "*");
+
+        //get ip list
+        var ipList = paras.Select(para => para.Ip).ToList();
+
+        // filter skip ip
+        var filterList = ipList.Where(ip => !skipList
+            .Select(s => s.Split(":")[2]).Contains(ip)).ToList();
+
+        // get list from filterList
+        var list = paras.Where(para => filterList.Contains(para.Ip)).ToList();
+
 
         //filter skip ip
-        var list = paras.Where(para => !skipList.Contains(para.Ip)).ToList();
+        // var list = paras.Where(para => !skipList.Contains(para.Ip)).ToList();
+        // filter skip ip with linq
+        // var filterList = skipList.Select(skip => skip.Split(":")[2])
+        //     .Where(s => paras.Any(para => para.Ip == s)).ToList();
+
+        // var filterList;
 
         foreach (var para in list)
         {

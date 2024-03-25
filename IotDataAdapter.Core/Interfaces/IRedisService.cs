@@ -7,7 +7,7 @@ public interface IRedisService
     Task<RedisValue> StringGet(string key);
 
     // string set
-    Task StringSet(string key, string value);
+    Task StringSet(string key, string value, TimeSpan expiry);
 
 
     // list right push
@@ -26,4 +26,6 @@ public interface IRedisService
 
     // list remove
     Task ListRemoveAsync(string key);
+
+    Task<List<string>> GetKeysAsync(string pattern);
 }

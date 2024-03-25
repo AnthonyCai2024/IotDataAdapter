@@ -46,7 +46,7 @@ public class DataCollectionController(IDataCollectionService dataCollectionServi
 
     private static List<TcpParameter> GetParas()
     {
-        var ipList = Enumerable.Range(31, 44);
+        var ipList = Enumerable.Range(31, 10);
 
         const int slave = 1;
         const int start = 1;

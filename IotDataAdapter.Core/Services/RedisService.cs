@@ -15,9 +15,9 @@ public class RedisService(IRedisConnection redisConnection, int databaseNumber) 
     }
 
     // string set
-    public async Task StringSet(string key, string value)
+    public async Task StringSet(string key, string value, TimeSpan expiry = default)
     {
-        await Database.StringSetAsync(key, value);
+        await Database.StringSetAsync(key, value, expiry);
     }
 
     // list right push
@@ -26,7 +26,7 @@ public class RedisService(IRedisConnection redisConnection, int databaseNumber) 
         var redisValues = list.Select(value => (RedisValue)value).ToArray();
         return await Database.ListRightPushAsync(key, redisValues);
     }
-    
+
     // right push
     public async Task<long> ListRightPushAsync(string key, string value)
     {
@@ -50,5 +50,19 @@ public class RedisService(IRedisConnection redisConnection, int databaseNumber) 
     public async Task ListRemoveAsync(string key)
     {
         await Database.ListTrimAsync(key, 100, -1);
+    }
+
+    // 根据pattern获取key
+    public Task<List<string>> GetKeysAsync(string pattern)
+    {
+        var keys = new List<string>();
+        var endpoints = redisConnection.Connection.GetEndPoints();
+        foreach (var endpoint in endpoints)
+        {
+            var server = redisConnection.Connection.GetServer(endpoint);
+            keys.AddRange(server.Keys(pattern: pattern).Select(key => key.ToString()));
+        }
+
+        return Task.FromResult(keys);
     }
 }
