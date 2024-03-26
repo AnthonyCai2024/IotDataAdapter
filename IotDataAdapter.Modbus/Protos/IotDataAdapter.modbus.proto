@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option csharp_namespace = "IotDataAdapter.modbus";
+
+package IotDataAdapter;
+
+// The greeting service definition.
+service ModbusService {
+  // Sends a greeting
+  rpc ModbusUdpMasterReadRegisters (ModbusRequest) returns (UShortArray);
+}
+
+// 模拟ushort[]的message
+message UShortArray {
+  repeated uint32 items = 1; // 使用repeated uint32来存储ushort值的列表
+}
+
+message ModbusRequest {
+  uint32 slaveId = 1;
+  uint32 functionCode = 2;
+  uint32 startAddress = 3;
+  uint32 quantity = 4;
+}
+
+

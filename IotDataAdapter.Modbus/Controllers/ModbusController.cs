@@ -1,4 +1,5 @@
-﻿using IotDataAdapter.Modbus.Services;
+﻿using IotDataAdapter.Modbus.Models;
+using IotDataAdapter.Modbus.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IotDataAdapter.Modbus.Controllers;
@@ -7,10 +8,12 @@ namespace IotDataAdapter.Modbus.Controllers;
 [Route("api/[controller]")]
 public class ModbusController(IModbusService modbusService)
 {
-    [HttpPost("CollectMultiDataAsync")]
-    public async Task CollectMultiDataAsync()
+    [HttpPost("ModbusUdpMasterReadRegisters")]
+    public async Task<ushort[]?> ModbusUdpMasterReadRegisters(ModbusRequest request)
     {
-        await modbusService.ModbusUdpMasterReadRegisters();
+        var resp = await modbusService.ModbusUdpMasterReadRegisters(request);
+
+        return resp;
     }
 
     [HttpPost("ParallelCollectMultiDataAsync")]

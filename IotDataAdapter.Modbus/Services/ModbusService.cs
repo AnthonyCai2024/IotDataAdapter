@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Sockets;
+using IotDataAdapter.Modbus.Models;
 using NModbus;
 
 namespace IotDataAdapter.Modbus.Services;
@@ -33,10 +34,10 @@ public class ModbusService : IModbusService
         return registers;
     }
 
-    public async Task<ushort[]> ModbusUdpMasterReadRegisters()
+    public async Task<ushort[]?> ModbusUdpMasterReadRegisters(ModbusRequest request)
     {
         using var client = new UdpClient();
-        var endPoint = new IPEndPoint(IPAddress.Parse("192.168.4.32"), 1086);
+        var endPoint = new IPEndPoint(IPAddress.Parse(request.Ip), 1086);
         client.Client.ReceiveTimeout = 150;
         client.Connect(endPoint);
 
@@ -44,12 +45,11 @@ public class ModbusService : IModbusService
 
         var master = factory.CreateMaster(client);
 
-        ushort startAddress = 1;
 
-        ushort numInputs = 5;
+        var registers =
+            await master.ReadHoldingRegistersAsync(request.SlaveId, request.StartAddress, request.NumInputs);
 
-        // write three coils
-        var registers = await master.ReadHoldingRegistersAsync(0, startAddress, numInputs);
+        Console.WriteLine("Registers: " + string.Join(", ", registers));
 
         return registers;
     }
