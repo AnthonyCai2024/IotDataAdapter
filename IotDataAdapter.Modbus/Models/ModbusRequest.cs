@@ -8,4 +8,6 @@ public class ModbusRequest
     public required ushort StartAddress { get; init; }
     public required ushort NumInputs { get; init; }
     public ushort Val;
+
+    public required ushort PlcBaseAddress { get; init; } = 1;
 }

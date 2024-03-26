@@ -47,7 +47,9 @@ public class ModbusService : IModbusService
 
 
         var registers =
-            await master.ReadHoldingRegistersAsync(request.SlaveId, request.StartAddress, request.NumInputs);
+            await master.ReadHoldingRegistersAsync(request.SlaveId,
+                (ushort)(request.StartAddress - request.PlcBaseAddress),
+                request.NumInputs);
 
         Console.WriteLine("Registers: " + string.Join(", ", registers));
 
