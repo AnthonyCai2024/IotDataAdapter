@@ -1,0 +1,6 @@
+@IotDataAdapter.Modbus_HostAddress = http://localhost:5248
+
+GET {{IotDataAdapter.Modbus_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
