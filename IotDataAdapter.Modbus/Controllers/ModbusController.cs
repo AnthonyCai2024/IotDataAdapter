@@ -11,9 +11,7 @@ public class ModbusController(IModbusService modbusService)
     [HttpPost("ModbusUdpMasterReadRegisters")]
     public async Task<ushort[]?> ModbusUdpMasterReadRegisters(ModbusRequest request)
     {
-        var resp = await modbusService.ModbusUdpMasterReadRegisters(request);
-
-        return resp;
+        return await modbusService.ModbusUdpMasterReadRegisters(request);
     }
 
     [HttpPost("ParallelCollectMultiDataAsync")]
