@@ -61,6 +61,20 @@ public class DataCollectionController(IDataCollectionService dataCollectionServi
             new HelloRequest { Name = "GreeterClient" });
 
         Console.WriteLine("Greeting: " + reply.Message);
+        
+        var modbusClient = new ModbusService.ModbusServiceClient(channel);
+        var modbusReply = modbusClient.ModbusGrpcUdpMasterReadRegisters(new ModbusUdpRequest
+        {
+            Ip = "192.168.4.32",
+            Port = 1086,
+            SlaveId = 1,
+            StartAddress = 1,
+            NumInputs = 10,
+            // no need val
+        });
+        
+        Console.WriteLine("modbus list: "+ string.Join(", ", modbusReply.Items));
+        
     }
 
     [HttpPost("ParallelCollectMultiDataAsync")]
