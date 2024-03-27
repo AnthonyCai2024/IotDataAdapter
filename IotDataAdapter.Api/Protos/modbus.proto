@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option csharp_namespace = "Iot.modbus";
+
+package Grpc.Modbus;
+
+// The greeting service definition.
+service ModbusService {
+  // Sends a greeting
+  rpc ModbusGrpcUdpMasterReadRegisters (ModbusUdpRequest) returns (UShortArray);
+}
+
+// 模拟ushort[]的message
+message UShortArray {
+  repeated uint32 items = 1; // 使用repeated uint32来存储ushort值的列表
+}
+
+message ModbusUdpRequest {
+  string Ip = 1;
+  uint32 Port = 2;
+  uint32 SlaveId = 3;
+  uint32 StartAddress = 4;
+  uint32 NumInputs = 5;
+  uint32 Val = 6;
+}
+
+

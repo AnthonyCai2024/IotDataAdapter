@@ -16,6 +16,7 @@ public class ModbusGrpcService(IModbusService modbusService) : Iot.modbus.Modbus
             SlaveId = (byte)request.SlaveId,
             StartAddress = (ushort)request.StartAddress,
             NumInputs = (ushort)request.NumInputs
+            // PlcBaseAddress, use default value 
         });
 
         UShortArray ushortArray = new();

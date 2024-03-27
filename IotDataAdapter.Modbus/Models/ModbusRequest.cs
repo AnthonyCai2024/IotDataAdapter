@@ -9,5 +9,5 @@ public class ModbusRequest
     public required ushort NumInputs { get; init; }
     public ushort Val;
 
-    public required ushort PlcBaseAddress { get; init; } = 1;
+    public ushort PlcBaseAddress { get; init; } = 1;
 }

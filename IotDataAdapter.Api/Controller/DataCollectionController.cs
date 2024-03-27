@@ -1,4 +1,6 @@
-﻿using IotDataAdapter.Api.Services;
+﻿using Grpc.Net.Client;
+using Iot.modbus;
+using IotDataAdapter.Api.Services;
 using IotDataAdapter.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,7 +30,28 @@ public class DataCollectionController(IDataCollectionService dataCollectionServi
     [HttpPost("CollectMultiDataAsync")]
     public async Task CollectMultiDataAsync()
     {
-        await dataCollectionService.CollectMultiDataAsync(GetParas());
+        // await dataCollectionService.CollectMultiDataAsync(GetParas());
+
+        // The port number must match the port of the gRPC server.
+        using var channel = GrpcChannel.ForAddress("http://localhost:15248");
+        // var client = new Greeter.GreeterClient(channel);
+        // var reply = await client.SayHelloAsync(
+        //     new HelloRequest { Name = "GreeterClient" });
+
+        var client = new ModbusService.ModbusServiceClient(channel);
+        var reply = client.ModbusGrpcUdpMasterReadRegisters(new ModbusUdpRequest
+        {
+            Ip = "192.168.4.32",
+            Port = 1086,
+            SlaveId = 1,
+            StartAddress = 1,
+            NumInputs = 10,
+            // no need val
+            Val = 0
+        });
+        Console.WriteLine("Greeting: " + reply.Items.Count);
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
     }
 
     [HttpPost("ParallelCollectMultiDataAsync")]

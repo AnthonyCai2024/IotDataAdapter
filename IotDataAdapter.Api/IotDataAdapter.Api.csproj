@@ -9,6 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Google.Protobuf" Version="3.26.0" />
+        <PackageReference Include="Grpc.Net.Client" Version="2.61.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.62.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
@@ -21,6 +27,13 @@
 
     <ItemGroup>
       <ProjectReference Include="..\IotDataAdapter.Core\IotDataAdapter.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Protos\modbus.proto" />
+      <Protobuf Include="Protos\modbus.proto">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Protobuf>
     </ItemGroup>
 
 </Project>
