@@ -13,6 +13,7 @@
 
     <ItemGroup>
         <PackageReference Include="Grpc.AspNetCore" Version="2.57.0"/>
+        <PackageReference Include="NModbus" Version="3.0.81" />
     </ItemGroup>
 
     <ItemGroup>
