@@ -43,9 +43,47 @@ foreach (var slave in slaveList)
     }
 }
 
+
+// 间隔1秒钟，写入寄存器
+var task = Task.Run(async () =>
+{
+    while (true)
+    {
+        // 在这里编写需要每秒执行的代码
+        Console.WriteLine("Code executed at: " + DateTime.Now);
+
+        // 等待1秒
+        await Task.Delay(1000);
+
+        // write
+        using var client = new TcpClient("127.0.0.1", 502);
+        var master = factory.CreateMaster(client);
+
+
+        const byte slaveId = 1;
+        const ushort numInputs = 100;
+
+        var writeData = DataStoreHelper.CreateRandomData(numInputs);
+
+        await master.WriteMultipleRegistersAsync(slaveId, startAddress, writeData);
+    }
+});
+
 network.ListenAsync().GetAwaiter().GetResult();
 
 Console.WriteLine("modbus slave simulator now running!");
+
+
+// 等待用户按下任意键来停止执行
+Console.ReadKey();
+
+// 取消任务并等待完成
+var cts = new CancellationTokenSource();
+cts.Cancel();
+await task;
+
+Console.WriteLine("Code execution stopped.");
+
 
 // prevent the main thread from exiting
 Thread.Sleep(Timeout.Infinite);
