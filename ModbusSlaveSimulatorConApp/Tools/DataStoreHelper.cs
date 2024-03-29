@@ -2,7 +2,7 @@
 
 public static class DataStoreHelper
 {
-    public static ushort[] CreateRandomData(int count = 1000)
+    public static ushort[] CreateRandomData(int count = 100)
     {
         // 生成随机值
         var random = new Random();

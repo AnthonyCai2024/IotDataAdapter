@@ -5,72 +5,34 @@ using System.Net.Sockets;
 using ModbusSlaveSimulatorConApp.Tools;
 using NModbus;
 
-var serverTask =Task.Run(() =>
-{
-    ModbusSlaveSimulator.Run();
-    return Task.CompletedTask;
-});
+const byte count = 3;
 
-// 等待一段时间，以确保Modbus Slave服务器已经启动
-await Task.Delay(1000);
+Console.WriteLine("Code execution started. Press any key to stop.");
 
-// 启动Modbus客户端
-// 间隔1秒钟，写入寄存器
-var clientTask = Task.Run(async () =>
+var taskList = new List<Task> { Task.Run(() => ModbusSlaveSimulator.Run(count)) };
+
+// 启动代码执行任务
+var taskClient = Task.Run(async () =>
 {
+    await Task.Delay(1000);
+
+    using var client = new TcpClient("127.0.0.1", 502);
     var factory = new ModbusFactory();
+    var master = factory.CreateMaster(client);
 
     while (true)
     {
-        // 在这里编写需要每秒执行的代码
-        Console.WriteLine("Code executed at: " + DateTime.Now);
+        // 调用第二个方法，例如向Modbus写入随机值
+        ModbusClientHelper.WriteTasks(master, count);
 
         // 等待1秒
-        await Task.Delay(1000);
-
-        // write
-        using var client = new TcpClient("127.0.0.1", 502);
-        var master = factory.CreateMaster(client);
-
-
-        const byte slaveId = 1;
-        const ushort numInputs = 100;
-
-        var writeData = DataStoreHelper.CreateRandomData(numInputs);
-
-        await master.WriteMultipleRegistersAsync(slaveId, 1, writeData);
+        await Task.Delay(500);
+        Console.WriteLine("Writing to slaves...");
     }
 });
 
-// 等待用户按下任意键来停止执行
-Console.WriteLine("Press any key to stop.");
+taskList.Add(taskClient);
 
-Console.ReadKey();
+await Task.WhenAll(taskList);
 
-// 停止Modbus Slave服务器
-// TODO: 停止Modbus Slave服务器的逻辑
-
-// 等待任务完成
-await Task.WhenAll(serverTask, clientTask);
-
-Console.WriteLine("Execution stopped.");
-
-
-Console.WriteLine("modbus slave simulator now running!");
-
-
-//
-// network.ListenAsync().GetAwaiter().GetResult();
-//
-// Console.WriteLine("modbus slave simulator now running!");
-//
-//
-// // 等待用户按下任意键来停止执行
-// Console.ReadKey();
-//
-// // 取消任务并等待完成
-// var cts = new CancellationTokenSource();
-// cts.Cancel();
-// await task;
-//
-// Console.WriteLine("Code execution stopped.");
+Console.WriteLine("Code execution stopped.");

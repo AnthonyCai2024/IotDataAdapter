@@ -6,7 +6,7 @@ namespace ModbusSlaveSimulatorConApp.Tools;
 
 public static class ModbusSlaveSimulator
 {
-    public static void Run()
+    public static void Run(byte count = 10)
     {
         Console.WriteLine("Hello, modbus slave simulator!");
 
@@ -25,7 +25,7 @@ public static class ModbusSlaveSimulator
         // var slave1 = factory.CreateSlave(1);
         // var slave2 = factory.CreateSlave(2);
 
-        var slaveList = SlaveHelper.CreateSlaves(factory, 2);
+        var slaveList = SlaveHelper.CreateSlaves(factory, count);
 
         foreach (var slave in slaveList)
         {
