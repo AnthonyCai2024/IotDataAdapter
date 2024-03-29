@@ -6,19 +6,19 @@ using NModbus;
 
 Console.WriteLine("Hello, World!");
 
-int port = 502;
-IPAddress address = new IPAddress(new byte[] { 127, 0, 0, 1 });
+const int port = 502;
+// IPAddress address = new IPAddress(new byte[] { 127, 0, 0, 1 });
 
 // create and start the TCP slave
-TcpListener slaveTcpListener = new TcpListener(address, port);
+var slaveTcpListener = new TcpListener(IPAddress.Any, port);
 slaveTcpListener.Start();
 
 IModbusFactory factory = new ModbusFactory();
 
 IModbusSlaveNetwork network = factory.CreateSlaveNetwork(slaveTcpListener);
 
-IModbusSlave slave1 = factory.CreateSlave(1);
-IModbusSlave slave2 = factory.CreateSlave(2);
+var slave1 = factory.CreateSlave(1);
+var slave2 = factory.CreateSlave(2);
 
 network.AddSlave(slave1);
 network.AddSlave(slave2);
@@ -26,16 +26,16 @@ network.AddSlave(slave2);
 // 生成随机值
 var random = new Random();
 var values = new List<float>();
-for (int i = 0; i < 10000; i++)
+for (var i = 0; i < 10000; i++)
 {
     var value = (float)random.NextDouble();
     values.Add(value);
 }
 
 // 分配随机值到地址
-ushort startAddress = 0;
+const ushort startAddress = 0;
 var writeData = new ushort[values.Count];
-for (int i = 0; i < values.Count; i++)
+for (var i = 0; i < values.Count; i++)
 {
     writeData[i] = BitConverter.ToUInt16(BitConverter.GetBytes(values[i]), 0);
 }
