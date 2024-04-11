@@ -38,4 +38,5 @@ message ModbusUdpRequest {
   uint32 StartAddress = 4;
   uint32 NumInputs = 5;
   uint32 Val = 6;
+  string Protocol = 7;
 }

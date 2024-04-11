@@ -28,7 +28,7 @@ public class DataCollectionController(IDataCollectionService dataCollectionServi
     }
 
     [HttpPost("CollectMultiDataAsync")]
-    public async Task CollectMultiDataAsync()
+    public async Task CollectMultiDataAsync(string protocol = "udp")
     {
         // await dataCollectionService.CollectMultiDataAsync(GetParas());
 
@@ -61,7 +61,7 @@ public class DataCollectionController(IDataCollectionService dataCollectionServi
             new HelloRequest { Name = "GreeterClient" });
 
         Console.WriteLine("Greeting: " + reply.Message);
-        
+
         var modbusClient = new ModbusService.ModbusServiceClient(channel);
         var modbusReply = modbusClient.ModbusGrpcUdpMasterReadRegisters(new ModbusUdpRequest
         {
@@ -70,11 +70,11 @@ public class DataCollectionController(IDataCollectionService dataCollectionServi
             SlaveId = 1,
             StartAddress = 1,
             NumInputs = 10,
+            Protocol = protocol
             // no need val
         });
-        
-        Console.WriteLine("modbus list: "+ string.Join(", ", modbusReply.Items));
-        
+
+        Console.WriteLine("modbus list: " + string.Join(", ", modbusReply.Items));
     }
 
     [HttpPost("ParallelCollectMultiDataAsync")]

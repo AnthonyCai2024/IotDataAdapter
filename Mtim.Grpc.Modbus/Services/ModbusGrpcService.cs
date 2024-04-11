@@ -3,18 +3,25 @@ using Mtim.Grpc.Modbus.Models;
 
 namespace Mtim.Grpc.Modbus.Services;
 
-public class ModbusGrpcService(IModbusService modbusService) : ModbusService.ModbusServiceBase
+public class ModbusGrpcService(IModbusServiceFactory serviceFactory) : ModbusService.ModbusServiceBase
 {
     public override async Task<UShortArray> ModbusGrpcUdpMasterReadRegisters(ModbusUdpRequest request,
         ServerCallContext context)
     {
-        var resp = await modbusService.ModbusUdpMasterReadRegisters(new ModbusRequest
+        var protocol = request.Protocol.Equals("tcp", StringComparison.CurrentCultureIgnoreCase)
+            ? "tcp"
+            : "udp";
+        
+        // Create a new instance of the ModbusServiceFactory class
+        var modbusService = serviceFactory.CreateModbusService(protocol);
+        
+        var resp = await modbusService.ReadHoldingRegisters(new ModbusRequest
         {
             Ip = request.Ip,
             Port = (ushort)request.Port,
             SlaveId = (byte)request.SlaveId,
             StartAddress = (ushort)request.StartAddress,
-            NumInputs = (ushort)request.NumInputs
+            NumInputs = (ushort)request.NumInputs,
             // PlcBaseAddress, use default value 
         });
 

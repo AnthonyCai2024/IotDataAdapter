@@ -6,7 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddGrpc();
 
 //custom
-builder.Services.AddSingleton<IModbusService, ModbusUdpService>();
+builder.Services.AddKeyedSingleton<IModbusService, ModbusTcpService>("tcp");
+builder.Services.AddKeyedSingleton<IModbusService, ModbusUdpService>("udp");
+builder.Services.AddSingleton<IModbusServiceFactory, ModbusServiceFactory>();
+
 
 var app = builder.Build();
 

@@ -5,7 +5,11 @@ using System.Net.Sockets;
 using ModbusSlaveSimulatorConApp.Tools;
 using NModbus;
 
-const byte count = 3;
+// await ModbusUpdHelper.ReadData();
+//
+// return;
+
+const byte count = 100;
 
 Console.WriteLine("Code execution started. Press any key to stop.");
 
