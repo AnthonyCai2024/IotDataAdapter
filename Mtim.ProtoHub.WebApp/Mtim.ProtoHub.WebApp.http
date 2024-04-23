@@ -1,0 +1,6 @@
+@Mtim.ProtoHub.WebApp_HostAddress = http://localhost:5096
+
+GET {{Mtim.ProtoHub.WebApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
