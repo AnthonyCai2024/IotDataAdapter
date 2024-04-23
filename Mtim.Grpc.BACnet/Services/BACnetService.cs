@@ -24,11 +24,11 @@ public static class BACnetService
         Thread.Sleep(2000);
 
         var res = bacnet_client.ReadPropertyRequest(bacnetAddress,
-            new BacnetObjectId(BacnetObjectTypes.OBJECT_ANALOG_INPUT, 0),
+            new BacnetObjectId(BacnetObjectTypes.OBJECT_ANALOG_INPUT, 1),
             BacnetPropertyIds.PROP_PRESENT_VALUE
             , out var Values);
 
-        Console.WriteLine("Read value : " + Values[0].Value.ToString());
+        Console.WriteLine("Read value : " + Values[0].Value);
 
         return false;
 
