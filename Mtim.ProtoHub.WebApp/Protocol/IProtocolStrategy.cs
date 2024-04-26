@@ -2,5 +2,5 @@
 
 public interface IProtocolStrategy
 {
-    void ExecuteCommand(string deviceAddress, string command);
+    void ExecuteCommand(string deviceAddress, ICommandParameters parameters);
 }
