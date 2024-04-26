@@ -2,5 +2,10 @@
 
 public interface IProtocolStrategy
 {
-    void ExecuteCommand(string deviceAddress, ICommandParameters parameters);
+    /// <summary>
+    /// write
+    /// </summary>
+    /// <param name="parameters"></param>
+    /// <returns></returns>
+    Task WriteSingle(ICommandParameters parameters);
 }

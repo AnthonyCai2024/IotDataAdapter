@@ -4,7 +4,7 @@ namespace IotDataAdapter.Core.Utils;
 
 public abstract class HexCommandBuilder
 {
-    protected virtual byte[] HexBuild(int? slave, int? start, int length, int val, ModbusCommand command)
+    protected byte[] HexBuild(int? slave, int? start, int length, int val, ModbusCommand command)
     {
         if (!slave.HasValue || !start.HasValue) return Array.Empty<byte>();
         var binSlave = Convert.ToByte(slave);

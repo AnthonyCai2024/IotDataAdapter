@@ -1,14 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Mtim.ProtoHub.WebApp.Protocol;
 
 namespace Mtim.ProtoHub.WebApp.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class MtimController
+public class MtimController(IProtocolStrategy protocolStrategy)
 {
-    [HttpGet("{command}")]
-    public string ExecuteCommand(string command)
+    private readonly IProtocolStrategy _protocolStrategy = protocolStrategy;
+
+
+    [HttpPost("WriteSingle")]
+    public void WriteSingle([FromBody] ModbusTcpParameters para)
     {
-        return command;
+        _protocolStrategy.WriteSingle(para);
     }
 }

@@ -1,9 +1,13 @@
+using Mtim.ProtoHub.WebApp.Protocol;
+using Mtim.ProtoHub.WebApp.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<IProtocolStrategy, HcsProtocolServices>();
 
 //custom register
 builder.Services.AddControllers();
