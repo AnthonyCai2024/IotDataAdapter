@@ -8,13 +8,13 @@ namespace Mtim.ProtoHub.WebApp.Services;
 
 public class HcsProtocolServices : HexCommandBuilder, IProtocolStrategy
 {
-    private async Task WriteSingle(string ip, byte slave, ushort? start, ushort length = 1)
+    private async Task WriteSingle(string ip, byte slave, ushort start, ushort val)
     {
         using var udpClient = new UdpClient();
         udpClient.Client.ReceiveTimeout = 100;
         udpClient.Connect(ip, 1086);
 
-        var sendBytes = HexBuild(slave, start - 1, length, 0, command: ModbusCommand.WriteSingle);
+        var sendBytes = HexBuild(slave, start, 0, val, command: ModbusCommand.WriteSingle);
 
         await udpClient.SendAsync(sendBytes, sendBytes.Length);
 
@@ -24,14 +24,15 @@ public class HcsProtocolServices : HexCommandBuilder, IProtocolStrategy
         udpClient.Receive(ref remoteEndPoint);
     }
 
-   
-
 
     public async Task WriteSingle(ICommandParameters parameters)
     {
         if (parameters is ModbusTcpParameters tcpParameter)
         {
-            await WriteSingle(tcpParameter.Ip, tcpParameter.Slave, tcpParameter.Start, tcpParameter.Val);
+            await WriteSingle(tcpParameter.Ip, tcpParameter.Slave, Convert.ToUInt16(tcpParameter.Start - 1),
+                tcpParameter.Val);
+            Console.WriteLine($"WriteSingle ok : {tcpParameter.Ip}, {tcpParameter.Slave}" +
+                              $", {tcpParameter.Start}, {tcpParameter.Val}");
         }
         else
         {

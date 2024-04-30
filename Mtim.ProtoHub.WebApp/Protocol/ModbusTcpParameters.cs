@@ -1,6 +1,6 @@
 ﻿namespace Mtim.ProtoHub.WebApp.Protocol;
 
-public class ModbusTcpParameters : ICommandParameters
+public record ModbusTcpParameters : ICommandParameters
 {
     public required string Ip { get; set; }
     public required byte Slave { get; set; }
