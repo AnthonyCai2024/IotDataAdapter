@@ -29,10 +29,11 @@ public class HcsProtocolServices : HexCommandBuilder, IProtocolStrategy
     {
         if (parameters is ModbusTcpParameters tcpParameter)
         {
-            await WriteSingle(tcpParameter.Ip, tcpParameter.Slave, Convert.ToUInt16(tcpParameter.Start - 1),
-                tcpParameter.Val);
             Console.WriteLine($"WriteSingle ok : {tcpParameter.Ip}, {tcpParameter.Slave}" +
                               $", {tcpParameter.Start}, {tcpParameter.Val}");
+
+            await WriteSingle(tcpParameter.Ip, tcpParameter.Slave, Convert.ToUInt16(tcpParameter.Start - 1),
+                tcpParameter.Val);
         }
         else
         {
