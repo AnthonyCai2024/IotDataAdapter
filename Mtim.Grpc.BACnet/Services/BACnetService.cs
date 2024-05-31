@@ -19,7 +19,7 @@ public static class BACnetService
         bacnet_client.WhoIs();
 
 
-        var bacnetAddress = new BacnetAddress(BacnetAddressTypes.IP, "127.0.0.1");
+        var bacnetAddress = new BacnetAddress(BacnetAddressTypes.IP, "");
 
         Thread.Sleep(2000);
 
