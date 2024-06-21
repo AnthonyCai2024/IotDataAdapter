@@ -4,4 +4,6 @@ using DataConvertConApp;
 
 Console.WriteLine("Hello, World!");
 
-ConvertHelper.ConvertToBit();
+// ConvertHelper.ConvertToBit();
+
+TimeHelper.Test();
