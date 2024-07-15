@@ -1,4 +1,5 @@
-using WebApplication1.Observer;
+using Castle.DynamicProxy;
+using WebApplication1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,29 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+// 注册服务和拦截器
+builder.Services.AddTransient<IMyService, MyService>();
+
+// 注册 Castle 动态代理生成器
+builder.Services.AddSingleton<IProxyGenerator, ProxyGenerator>();
+
+// 注册自定义的拦截器
+builder.Services.AddSingleton<CustomInterceptor>();
+
+// 使用工厂模式创建代理
+builder.Services.AddTransient<IMyService>(provider =>
+{
+    var proxyGenerator = provider.GetRequiredService<IProxyGenerator>();
+    var interceptor = provider.GetRequiredService<CustomInterceptor>();
+    var myService = new MyService();
+    return proxyGenerator.CreateInterfaceProxyWithTarget<IMyService>(myService, interceptor);
+});
+
+// 注册 BackgroundService
+builder.Services.AddHostedService<MyBackgroundService>();
+
 
 var app = builder.Build();
 
@@ -20,10 +44,10 @@ if (app.Environment.IsDevelopment())
 
 // new CryptHelper().Test();
 
-ObserverMain.Test(null);
+// ObserverMain.Test(null);
 
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 var summaries = new[]
 {
