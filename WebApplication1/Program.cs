@@ -10,7 +10,7 @@ builder.Services.AddSwaggerGen();
 
 
 // 注册服务和拦截器
-builder.Services.AddTransient<IMyService, MyService>();
+// builder.Services.AddTransient<IMyService, MyService>();
 
 // 注册 Castle 动态代理生成器
 builder.Services.AddSingleton<IProxyGenerator, ProxyGenerator>();

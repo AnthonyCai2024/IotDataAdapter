@@ -45,8 +45,8 @@ public class ConvertHelper
     {
         // 经过验证,Modbus poll中的float reverse就是 c# 中的float32 , 两者为倒转
 
-        ushort value1 = 17258;
-        ushort value2 = 13618;
+        ushort value1 = 62703;
+        ushort value2 = 16405;
 
         // 合并两个 16 位数为一个 32 位整数
         uint combinedValue = (uint)((value1 << 16) | value2);
